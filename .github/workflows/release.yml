@@ -1,0 +1,30 @@
+name: Windows release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm.cmd test
+      - run: npm.cmd run package:win
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Pace ${{ github.ref_name }}
+          body_path: GITHUB_RELEASE_NOTES.md
+          files: |
+            release/Pace-*-Windows-x64-Setup.exe
+            release/Pace-*-Windows-x64-Setup.exe.blockmap

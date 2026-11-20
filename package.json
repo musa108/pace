@@ -1,0 +1,71 @@
+{
+  "name": "pace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A calm, camera-based breathing companion powered by Presage SmartSpectra.",
+  "main": "out/main/index.js",
+  "scripts": {
+    "dev": "node scripts/dev.cjs",
+    "build": "tsc --noEmit && electron-vite build",
+    "package:win": "npm run build && electron-builder --win nsis --x64",
+    "preview": "electron-vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@smartspectra/node-sdk": "^3.4.0",
+    "dotenv": "^16.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.5.0",
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0",
+    "electron-vite": "^4.0.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^5.1.1"
+  },
+  "allowScripts": {
+    "koffi@2.16.4": true,
+    "protobufjs@7.6.6": true,
+    "esbuild@0.25.12": true,
+    "electron-winstaller@5.4.0": true,
+    "electron@45.4.1": true
+  },
+  "build": {
+    "appId": "com.pace.rhythm",
+    "productName": "Pace",
+    "artifactName": "Pace-${version}-Windows-x64-Setup.${ext}",
+    "asar": false,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "**/*",
+      "!.env",
+      "!.env.*",
+      "!node_modules/@smartspectra/node-sdk-darwin-arm64/**",
+      "!node_modules/@smartspectra/node-sdk-linux-arm64/**",
+      "!node_modules/@smartspectra/node-sdk-linux-x64/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
